@@ -5,6 +5,7 @@ public class Player : MonoBehaviour {
 
 	public PlayerInput input;
 	private InputAction moveAction;
+	private InputAction interactAction;
 
 	public CharacterController controller;
 
@@ -12,9 +13,20 @@ public class Player : MonoBehaviour {
 
 	public Transform referenceCamera;
 
+	public Interactable interactable;
+
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start() {
 		moveAction = input.actions.FindAction("Move");
+		interactAction = input.actions.FindAction("Interact");
+
+		interactAction.performed += InteractAction_performed;
+	}
+
+	private void InteractAction_performed(InputAction.CallbackContext obj) {
+		if(interactable != null){
+			interactable.Interact();
+		}
 	}
 
 	// Update is called once per frame
@@ -33,10 +45,28 @@ public class Player : MonoBehaviour {
 
 		controller.Move(moveDirection * Time.deltaTime * speed);
 
+		if(!controller.isGrounded)
+			controller.Move(new Vector3(0, -1, 0));
+
 		if(inputDirection != Vector2.zero) {
 			//transform (klein) verweist auf "mein" transform
 			transform.forward = Vector3.Slerp(transform.forward, moveDirection, 0.1f);
 		}
 
+	}
+
+	private void OnTriggerEnter(Collider other) {
+		Interactable inter = other.GetComponent<Interactable>(); //sucht nach einem Interactable Script auf dem "other" Objekt
+
+		//wenn ein "Interactable" gefunden wird, ist die Variabel nicht null
+		if(inter != null)
+			interactable = inter;
+	}
+
+	private void OnTriggerExit(Collider other) {
+		Interactable inter = other.GetComponent<Interactable>();
+
+		if(inter != null)
+			interactable = null;
 	}
 }

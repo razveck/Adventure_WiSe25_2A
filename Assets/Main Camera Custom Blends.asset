@@ -27,7 +27,7 @@ MonoBehaviour:
   - From: CinemachineCamera2
     To: CinemachineCamera1
     Blend:
-      Style: 1
+      Style: 0
       Time: 1
       CustomCurve:
         serializedVersion: 2
