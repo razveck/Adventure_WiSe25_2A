@@ -13,6 +13,7 @@ public class NPC : Interactable {
 	}
 
 	public override void Interact() {
+		base.Interact();
 		dialogScreen.ShowDialog(dialog, name);
 	}
 }

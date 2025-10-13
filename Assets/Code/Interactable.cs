@@ -1,6 +1,9 @@
 using UnityEngine;
 
 public class Interactable : MonoBehaviour {
+
+	public event System.Action onInteracted;
+
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start() {
 
@@ -13,5 +16,6 @@ public class Interactable : MonoBehaviour {
 
 	public virtual void Interact(){
 		Debug.Log("Interacted with " + gameObject);
+		onInteracted?.Invoke(); //? ist ein null check, gleich wie if(onInteracted!=null)
 	}
 }

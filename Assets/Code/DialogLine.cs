@@ -4,7 +4,10 @@ public class DialogLine : MonoBehaviour
 {
     public string text;
     public DialogChoice[] choices; //array
+
     //optional
+    public DialogLine nextLine;
+    //public string characterName;
     //public Sprite portrait;
 
     /*
