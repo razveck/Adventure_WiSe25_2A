@@ -9,6 +9,9 @@ public class DialogScreen : MonoBehaviour {
 	private DialogLine currentLine;
 	private string currentSpeaker;
 
+	//string ist die ID von der Choice
+	public event System.Action<string> onChoiceSelected;
+
 	public GameObject panel;
 	public TMP_Text nameTMP;
 	public TMP_Text dialogTextTMP;
@@ -60,7 +63,14 @@ public class DialogScreen : MonoBehaviour {
 	}
 
 	public void SelectChoice(int index) {
+		onChoiceSelected?.Invoke(currentLine.choices[index].id);
 		ShowDialog(currentLine.choices[index].nextLine, currentSpeaker);
+
+		//optional
+		//if(currentLine.choices[index].nextLine != null)
+		//	ShowDialog(currentLine.choices[index].nextLine, currentSpeaker);
+		//else
+		//	HideDialog();
 	}
 
 	public void Continue() {
